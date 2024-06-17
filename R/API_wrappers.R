@@ -37,7 +37,7 @@ create_access_list <- function() {
 #' @return Description of the return value.
 #' @details Any additional details about the function.
 #' @examples
-#' reply <- get_token_LM(uname = "myusername", upass = "mypassword", access_list = create_access_list() )
+#' reply <- get_token(uname = "myusername", upass = "mypassword", access_list = create_access_list() )
 #' my_token <- reply$token
 #' @import httr2
 #' @export

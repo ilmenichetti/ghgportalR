@@ -23,7 +23,7 @@ library(httr2) # should be loaded automatically, here just in case...
 
 Then we have to get the token from your username and password. In the following example username and passwords are from system variables, in order not to make them visible, but you can substitute `api_username` and `api_password` with yours.
 
-```{r}
+```{r, results=FALSE}
 api_username <- Sys.getenv("ghgportal_API_USERNAME")
 api_password <- Sys.getenv("ghgportal_API_PASSWORD")
                            
