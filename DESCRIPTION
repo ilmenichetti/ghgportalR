@@ -1,11 +1,18 @@
 Package: ghgportalR
 Type: Package
-Title: What the Package Does (Title Case)
+Title: R wrapper for the API interface to LUKE ghgportal server
 Version: 0.1.0
-Author: Who wrote it
-Maintainer: The package maintainer <yourself@somewhere.net>
+Author: Jani Anttila <jani.anttila@luke.fi>
+Maintainer: Lorenzo Menichetti <lorenzo.menichetti@luke.fi>
 Description: More about what it does (maybe more than one line)
     Use four spaces when indenting paragraphs within the Description.
 License: What license is it under?
 Encoding: UTF-8
 LazyData: true
+Imports:
+  httr2
+RoxygenNote: 7.2.3
+Suggests: 
+    knitr,
+    rmarkdown
+VignetteBuilder: knitr
