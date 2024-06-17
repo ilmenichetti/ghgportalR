@@ -8,7 +8,7 @@ knitr::opts_chunk$set(
 library(ghgportalR)
 library(httr2) # should be loaded automatically, here just in case...
 
-## -----------------------------------------------------------------------------
+## ---- results=FALSE-----------------------------------------------------------
 api_username <- Sys.getenv("ghgportal_API_USERNAME")
 api_password <- Sys.getenv("ghgportal_API_PASSWORD")
                            

@@ -350,16 +350,7 @@ order not to make them visible, but you can substitute
 <div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" tabindex="-1"></a>api_username <span class="ot">&lt;-</span> <span class="fu">Sys.getenv</span>(<span class="st">&quot;ghgportal_API_USERNAME&quot;</span>)</span>
 <span id="cb2-2"><a href="#cb2-2" tabindex="-1"></a>api_password <span class="ot">&lt;-</span> <span class="fu">Sys.getenv</span>(<span class="st">&quot;ghgportal_API_PASSWORD&quot;</span>)</span>
 <span id="cb2-3"><a href="#cb2-3" tabindex="-1"></a>                           </span>
-<span id="cb2-4"><a href="#cb2-4" tabindex="-1"></a>reply <span class="ot">&lt;-</span> <span class="fu">get_token</span>(<span class="at">uname =</span> api_username, <span class="at">upass =</span> api_password)</span>
-<span id="cb2-5"><a href="#cb2-5" tabindex="-1"></a><span class="co">#&gt; $expiry</span></span>
-<span id="cb2-6"><a href="#cb2-6" tabindex="-1"></a><span class="co">#&gt; [1] &quot;2024-06-19T12:15:30.402925Z&quot;</span></span>
-<span id="cb2-7"><a href="#cb2-7" tabindex="-1"></a><span class="co">#&gt; </span></span>
-<span id="cb2-8"><a href="#cb2-8" tabindex="-1"></a><span class="co">#&gt; $token</span></span>
-<span id="cb2-9"><a href="#cb2-9" tabindex="-1"></a><span class="co">#&gt; [1] &quot;cf7aa371c1fd528621e35921c0489301&quot;</span></span>
-<span id="cb2-10"><a href="#cb2-10" tabindex="-1"></a><span class="co">#&gt; </span></span>
-<span id="cb2-11"><a href="#cb2-11" tabindex="-1"></a><span class="co">#&gt; $user</span></span>
-<span id="cb2-12"><a href="#cb2-12" tabindex="-1"></a><span class="co">#&gt; $user$username</span></span>
-<span id="cb2-13"><a href="#cb2-13" tabindex="-1"></a><span class="co">#&gt; [1] &quot;lmenichetti&quot;</span></span></code></pre></div>
+<span id="cb2-4"><a href="#cb2-4" tabindex="-1"></a>reply <span class="ot">&lt;-</span> <span class="fu">get_token</span>(<span class="at">uname =</span> api_username, <span class="at">upass =</span> api_password)</span></code></pre></div>
 <p>We then select just the token bit from the output:</p>
 <div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a>my_token <span class="ot">&lt;-</span> reply<span class="sc">$</span>token</span></code></pre></div>
 <p>Now with the token we can start querying the database, starting from

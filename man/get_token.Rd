@@ -23,7 +23,7 @@ This function is utilized to get the token needed to communicate with the API. T
 Any additional details about the function.
 }
 \examples{
-reply <- get_token_LM(uname = "myusername", upass = "mypassword", access_list = create_access_list() )
+reply <- get_token(uname = "myusername", upass = "mypassword", access_list = create_access_list() )
 my_token <- reply$token
 }
 \author{
