@@ -7,17 +7,13 @@
 get_projects(token)
 }
 \arguments{
-\item{uname}{username}
-
-\item{upass}{password}
-
-\item{toke}{output straight from the function \code{\link{get_token_LM}}.}
+\item{token}{output straight from the function \code{\link{get_token_LM}}.}
 }
 \value{
-Description of the return value.
+a data.frame (which should have 9 variables:  "id", "worker", "worker_name", "project", "project_name", "author", "author_name", "date", "active"). This might change in different versions of the database, eventually contact the package maintainer.
 }
 \description{
-This function is utilized to get the projects assigned to a certain user
+This function is utilized to get the projects assigned to the user
 }
 \details{
 Any additional details about the function.

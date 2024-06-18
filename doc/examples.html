@@ -360,6 +360,291 @@ a list of projects assigned to the user:</p>
 <span id="cb4-3"><a href="#cb4-3" tabindex="-1"></a><span class="co">#&gt; 1  7      9 lmenichetti       1    HoliSoils      1    janttila</span></span>
 <span id="cb4-4"><a href="#cb4-4" tabindex="-1"></a><span class="co">#&gt;                          date active</span></span>
 <span id="cb4-5"><a href="#cb4-5" tabindex="-1"></a><span class="co">#&gt; 1 2024-02-28T15:38:12.066149Z   TRUE</span></span></code></pre></div>
+<p>We can now query a specific project. In this case we want to select
+project 1:</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" tabindex="-1"></a>all_meas <span class="ot">&lt;-</span> <span class="fu">get_meas</span>(my_token, <span class="at">project_id =</span> <span class="dv">1</span>)</span></code></pre></div>
+<p>Just in case, the parameter <code>project_id</code> refers to the
+number in the column <code>&quot;project&quot;</code> and not
+<code>&quot;id&quot;</code>.</p>
+<p>Now we can query one single measurement series:</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" tabindex="-1"></a>series <span class="ot">&lt;-</span> <span class="fu">get_series</span>(<span class="at">token =</span> my_token, <span class="at">meas_id=</span><span class="dv">51</span>)</span></code></pre></div>
+<p>Here is where things get complicated, since the database structure is
+a nested array. Each series consists of a vector of values (the
+measurement) of an arbitrary length, plus some associated metadata. The
+object returned (a JSON object) is read as a list of lists.</p>
+<p>One of the metadata is the <code>siteid</code> field in each second
+order list.<br />
+We can get a matrix with all the <code>siteid</code> in a measurement
+series</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" tabindex="-1"></a>subsite_info <span class="ot">&lt;-</span> <span class="fu">subsiteID_names</span>(series)</span>
+<span id="cb7-2"><a href="#cb7-2" tabindex="-1"></a>subsite_info</span>
+<span id="cb7-3"><a href="#cb7-3" tabindex="-1"></a><span class="co">#&gt;    subsiteid siteid</span></span>
+<span id="cb7-4"><a href="#cb7-4" tabindex="-1"></a><span class="co">#&gt; 1      DP-MC Dobroc</span></span>
+<span id="cb7-5"><a href="#cb7-5" tabindex="-1"></a><span class="co">#&gt; 2      DP-MC Dobroc</span></span>
+<span id="cb7-6"><a href="#cb7-6" tabindex="-1"></a><span class="co">#&gt; 3      DP-MC Dobroc</span></span>
+<span id="cb7-7"><a href="#cb7-7" tabindex="-1"></a><span class="co">#&gt; 4      DP-MC Dobroc</span></span>
+<span id="cb7-8"><a href="#cb7-8" tabindex="-1"></a><span class="co">#&gt; 5      DP-MC Dobroc</span></span>
+<span id="cb7-9"><a href="#cb7-9" tabindex="-1"></a><span class="co">#&gt; 6      DP-MC Dobroc</span></span>
+<span id="cb7-10"><a href="#cb7-10" tabindex="-1"></a><span class="co">#&gt; 7      DP-MC Dobroc</span></span>
+<span id="cb7-11"><a href="#cb7-11" tabindex="-1"></a><span class="co">#&gt; 8      DP-MC Dobroc</span></span>
+<span id="cb7-12"><a href="#cb7-12" tabindex="-1"></a><span class="co">#&gt; 9      DP-MC Dobroc</span></span>
+<span id="cb7-13"><a href="#cb7-13" tabindex="-1"></a><span class="co">#&gt; 10     DP-MC Dobroc</span></span>
+<span id="cb7-14"><a href="#cb7-14" tabindex="-1"></a><span class="co">#&gt; 11     DP-MC Dobroc</span></span>
+<span id="cb7-15"><a href="#cb7-15" tabindex="-1"></a><span class="co">#&gt; 12     DP-MC Dobroc</span></span>
+<span id="cb7-16"><a href="#cb7-16" tabindex="-1"></a><span class="co">#&gt; 13     DP-MC Dobroc</span></span>
+<span id="cb7-17"><a href="#cb7-17" tabindex="-1"></a><span class="co">#&gt; 14     DP-MC Dobroc</span></span>
+<span id="cb7-18"><a href="#cb7-18" tabindex="-1"></a><span class="co">#&gt; 15     DP-MC Dobroc</span></span>
+<span id="cb7-19"><a href="#cb7-19" tabindex="-1"></a><span class="co">#&gt; 16     DP-MC Dobroc</span></span>
+<span id="cb7-20"><a href="#cb7-20" tabindex="-1"></a><span class="co">#&gt; 17     DP-MC Dobroc</span></span>
+<span id="cb7-21"><a href="#cb7-21" tabindex="-1"></a><span class="co">#&gt; 18     DP-MC Dobroc</span></span>
+<span id="cb7-22"><a href="#cb7-22" tabindex="-1"></a><span class="co">#&gt; 19     DP-MC Dobroc</span></span>
+<span id="cb7-23"><a href="#cb7-23" tabindex="-1"></a><span class="co">#&gt; 20     DP-MC Dobroc</span></span>
+<span id="cb7-24"><a href="#cb7-24" tabindex="-1"></a><span class="co">#&gt; 21     DP-MC Dobroc</span></span>
+<span id="cb7-25"><a href="#cb7-25" tabindex="-1"></a><span class="co">#&gt; 22     DP-MC Dobroc</span></span>
+<span id="cb7-26"><a href="#cb7-26" tabindex="-1"></a><span class="co">#&gt; 23     DP-MC Dobroc</span></span>
+<span id="cb7-27"><a href="#cb7-27" tabindex="-1"></a><span class="co">#&gt; 24     DP-MC Dobroc</span></span>
+<span id="cb7-28"><a href="#cb7-28" tabindex="-1"></a><span class="co">#&gt; 25     DP-MC Dobroc</span></span>
+<span id="cb7-29"><a href="#cb7-29" tabindex="-1"></a><span class="co">#&gt; 26     DP-MC Dobroc</span></span>
+<span id="cb7-30"><a href="#cb7-30" tabindex="-1"></a><span class="co">#&gt; 27     DP-MC Dobroc</span></span>
+<span id="cb7-31"><a href="#cb7-31" tabindex="-1"></a><span class="co">#&gt; 28     DP-MC Dobroc</span></span>
+<span id="cb7-32"><a href="#cb7-32" tabindex="-1"></a><span class="co">#&gt; 29     DP-MC Dobroc</span></span>
+<span id="cb7-33"><a href="#cb7-33" tabindex="-1"></a><span class="co">#&gt; 30     DP-MC Dobroc</span></span>
+<span id="cb7-34"><a href="#cb7-34" tabindex="-1"></a><span class="co">#&gt; 31     DP-MC Dobroc</span></span>
+<span id="cb7-35"><a href="#cb7-35" tabindex="-1"></a><span class="co">#&gt; 32     DP-MC Dobroc</span></span>
+<span id="cb7-36"><a href="#cb7-36" tabindex="-1"></a><span class="co">#&gt; 33     DP-MC Dobroc</span></span>
+<span id="cb7-37"><a href="#cb7-37" tabindex="-1"></a><span class="co">#&gt; 34     DP-MC Dobroc</span></span>
+<span id="cb7-38"><a href="#cb7-38" tabindex="-1"></a><span class="co">#&gt; 35     DP-MC Dobroc</span></span>
+<span id="cb7-39"><a href="#cb7-39" tabindex="-1"></a><span class="co">#&gt; 36     DP-MC Dobroc</span></span>
+<span id="cb7-40"><a href="#cb7-40" tabindex="-1"></a><span class="co">#&gt; 37     DP-MC Dobroc</span></span>
+<span id="cb7-41"><a href="#cb7-41" tabindex="-1"></a><span class="co">#&gt; 38     DP-MC Dobroc</span></span>
+<span id="cb7-42"><a href="#cb7-42" tabindex="-1"></a><span class="co">#&gt; 39     DP-MC Dobroc</span></span>
+<span id="cb7-43"><a href="#cb7-43" tabindex="-1"></a><span class="co">#&gt; 40     DP-MC Dobroc</span></span>
+<span id="cb7-44"><a href="#cb7-44" tabindex="-1"></a><span class="co">#&gt; 41    DP-MIX Dobroc</span></span>
+<span id="cb7-45"><a href="#cb7-45" tabindex="-1"></a><span class="co">#&gt; 42    DP-MIX Dobroc</span></span>
+<span id="cb7-46"><a href="#cb7-46" tabindex="-1"></a><span class="co">#&gt; 43    DP-MIX Dobroc</span></span>
+<span id="cb7-47"><a href="#cb7-47" tabindex="-1"></a><span class="co">#&gt; 44    DP-MIX Dobroc</span></span>
+<span id="cb7-48"><a href="#cb7-48" tabindex="-1"></a><span class="co">#&gt; 45    DP-MIX Dobroc</span></span>
+<span id="cb7-49"><a href="#cb7-49" tabindex="-1"></a><span class="co">#&gt; 46    DP-MIX Dobroc</span></span>
+<span id="cb7-50"><a href="#cb7-50" tabindex="-1"></a><span class="co">#&gt; 47    DP-MIX Dobroc</span></span>
+<span id="cb7-51"><a href="#cb7-51" tabindex="-1"></a><span class="co">#&gt; 48    DP-MIX Dobroc</span></span>
+<span id="cb7-52"><a href="#cb7-52" tabindex="-1"></a><span class="co">#&gt; 49    DP-MIX Dobroc</span></span>
+<span id="cb7-53"><a href="#cb7-53" tabindex="-1"></a><span class="co">#&gt; 50    DP-MIX Dobroc</span></span>
+<span id="cb7-54"><a href="#cb7-54" tabindex="-1"></a><span class="co">#&gt; 51    DP-MIX Dobroc</span></span>
+<span id="cb7-55"><a href="#cb7-55" tabindex="-1"></a><span class="co">#&gt; 52    DP-MIX Dobroc</span></span>
+<span id="cb7-56"><a href="#cb7-56" tabindex="-1"></a><span class="co">#&gt; 53    DP-MIX Dobroc</span></span>
+<span id="cb7-57"><a href="#cb7-57" tabindex="-1"></a><span class="co">#&gt; 54    DP-MIX Dobroc</span></span>
+<span id="cb7-58"><a href="#cb7-58" tabindex="-1"></a><span class="co">#&gt; 55    DP-MIX Dobroc</span></span>
+<span id="cb7-59"><a href="#cb7-59" tabindex="-1"></a><span class="co">#&gt; 56    DP-MIX Dobroc</span></span>
+<span id="cb7-60"><a href="#cb7-60" tabindex="-1"></a><span class="co">#&gt; 57    DP-MIX Dobroc</span></span>
+<span id="cb7-61"><a href="#cb7-61" tabindex="-1"></a><span class="co">#&gt; 58    DP-MIX Dobroc</span></span>
+<span id="cb7-62"><a href="#cb7-62" tabindex="-1"></a><span class="co">#&gt; 59    DP-MIX Dobroc</span></span>
+<span id="cb7-63"><a href="#cb7-63" tabindex="-1"></a><span class="co">#&gt; 60    DP-MIX Dobroc</span></span>
+<span id="cb7-64"><a href="#cb7-64" tabindex="-1"></a><span class="co">#&gt; 61    DP-MIX Dobroc</span></span>
+<span id="cb7-65"><a href="#cb7-65" tabindex="-1"></a><span class="co">#&gt; 62    DP-MIX Dobroc</span></span>
+<span id="cb7-66"><a href="#cb7-66" tabindex="-1"></a><span class="co">#&gt; 63    DP-MIX Dobroc</span></span>
+<span id="cb7-67"><a href="#cb7-67" tabindex="-1"></a><span class="co">#&gt; 64    DP-MIX Dobroc</span></span>
+<span id="cb7-68"><a href="#cb7-68" tabindex="-1"></a><span class="co">#&gt; 65    DP-MIX Dobroc</span></span>
+<span id="cb7-69"><a href="#cb7-69" tabindex="-1"></a><span class="co">#&gt; 66    DP-MIX Dobroc</span></span>
+<span id="cb7-70"><a href="#cb7-70" tabindex="-1"></a><span class="co">#&gt; 67    DP-MIX Dobroc</span></span>
+<span id="cb7-71"><a href="#cb7-71" tabindex="-1"></a><span class="co">#&gt; 68    DP-MIX Dobroc</span></span>
+<span id="cb7-72"><a href="#cb7-72" tabindex="-1"></a><span class="co">#&gt; 69    DP-MIX Dobroc</span></span>
+<span id="cb7-73"><a href="#cb7-73" tabindex="-1"></a><span class="co">#&gt; 70    DP-MIX Dobroc</span></span>
+<span id="cb7-74"><a href="#cb7-74" tabindex="-1"></a><span class="co">#&gt; 71    DP-MIX Dobroc</span></span>
+<span id="cb7-75"><a href="#cb7-75" tabindex="-1"></a><span class="co">#&gt; 72    DP-MIX Dobroc</span></span>
+<span id="cb7-76"><a href="#cb7-76" tabindex="-1"></a><span class="co">#&gt; 73    DP-MIX Dobroc</span></span>
+<span id="cb7-77"><a href="#cb7-77" tabindex="-1"></a><span class="co">#&gt; 74    DP-MIX Dobroc</span></span>
+<span id="cb7-78"><a href="#cb7-78" tabindex="-1"></a><span class="co">#&gt; 75    DP-MIX Dobroc</span></span>
+<span id="cb7-79"><a href="#cb7-79" tabindex="-1"></a><span class="co">#&gt; 76    DP-MIX Dobroc</span></span>
+<span id="cb7-80"><a href="#cb7-80" tabindex="-1"></a><span class="co">#&gt; 77    DP-MIX Dobroc</span></span>
+<span id="cb7-81"><a href="#cb7-81" tabindex="-1"></a><span class="co">#&gt; 78    DP-MIX Dobroc</span></span>
+<span id="cb7-82"><a href="#cb7-82" tabindex="-1"></a><span class="co">#&gt; 79    DP-MIX Dobroc</span></span>
+<span id="cb7-83"><a href="#cb7-83" tabindex="-1"></a><span class="co">#&gt; 80    DP-MIX Dobroc</span></span></code></pre></div>
+<p>Same can be done with the sampling points:</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" tabindex="-1"></a>points_info <span class="ot">&lt;-</span> <span class="fu">point_names</span>(series)</span>
+<span id="cb8-2"><a href="#cb8-2" tabindex="-1"></a>points_info</span>
+<span id="cb8-3"><a href="#cb8-3" tabindex="-1"></a><span class="co">#&gt;    subsiteid siteid point</span></span>
+<span id="cb8-4"><a href="#cb8-4" tabindex="-1"></a><span class="co">#&gt; 1      DP-MC Dobroc    T1</span></span>
+<span id="cb8-5"><a href="#cb8-5" tabindex="-1"></a><span class="co">#&gt; 2      DP-MC Dobroc    T1</span></span>
+<span id="cb8-6"><a href="#cb8-6" tabindex="-1"></a><span class="co">#&gt; 3      DP-MC Dobroc    T2</span></span>
+<span id="cb8-7"><a href="#cb8-7" tabindex="-1"></a><span class="co">#&gt; 4      DP-MC Dobroc    T2</span></span>
+<span id="cb8-8"><a href="#cb8-8" tabindex="-1"></a><span class="co">#&gt; 5      DP-MC Dobroc    T3</span></span>
+<span id="cb8-9"><a href="#cb8-9" tabindex="-1"></a><span class="co">#&gt; 6      DP-MC Dobroc    T3</span></span>
+<span id="cb8-10"><a href="#cb8-10" tabindex="-1"></a><span class="co">#&gt; 7      DP-MC Dobroc    T4</span></span>
+<span id="cb8-11"><a href="#cb8-11" tabindex="-1"></a><span class="co">#&gt; 8      DP-MC Dobroc    T4</span></span>
+<span id="cb8-12"><a href="#cb8-12" tabindex="-1"></a><span class="co">#&gt; 9      DP-MC Dobroc    C1</span></span>
+<span id="cb8-13"><a href="#cb8-13" tabindex="-1"></a><span class="co">#&gt; 10     DP-MC Dobroc    C1</span></span>
+<span id="cb8-14"><a href="#cb8-14" tabindex="-1"></a><span class="co">#&gt; 11     DP-MC Dobroc    C2</span></span>
+<span id="cb8-15"><a href="#cb8-15" tabindex="-1"></a><span class="co">#&gt; 12     DP-MC Dobroc    C2</span></span>
+<span id="cb8-16"><a href="#cb8-16" tabindex="-1"></a><span class="co">#&gt; 13     DP-MC Dobroc    C3</span></span>
+<span id="cb8-17"><a href="#cb8-17" tabindex="-1"></a><span class="co">#&gt; 14     DP-MC Dobroc    C3</span></span>
+<span id="cb8-18"><a href="#cb8-18" tabindex="-1"></a><span class="co">#&gt; 15     DP-MC Dobroc    C4</span></span>
+<span id="cb8-19"><a href="#cb8-19" tabindex="-1"></a><span class="co">#&gt; 16     DP-MC Dobroc    C4</span></span>
+<span id="cb8-20"><a href="#cb8-20" tabindex="-1"></a><span class="co">#&gt; 17     DP-MC Dobroc    C5</span></span>
+<span id="cb8-21"><a href="#cb8-21" tabindex="-1"></a><span class="co">#&gt; 18     DP-MC Dobroc    C5</span></span>
+<span id="cb8-22"><a href="#cb8-22" tabindex="-1"></a><span class="co">#&gt; 19     DP-MC Dobroc    C6</span></span>
+<span id="cb8-23"><a href="#cb8-23" tabindex="-1"></a><span class="co">#&gt; 20     DP-MC Dobroc    C6</span></span>
+<span id="cb8-24"><a href="#cb8-24" tabindex="-1"></a><span class="co">#&gt; 21     DP-MC Dobroc    T1</span></span>
+<span id="cb8-25"><a href="#cb8-25" tabindex="-1"></a><span class="co">#&gt; 22     DP-MC Dobroc    T1</span></span>
+<span id="cb8-26"><a href="#cb8-26" tabindex="-1"></a><span class="co">#&gt; 23     DP-MC Dobroc    T2</span></span>
+<span id="cb8-27"><a href="#cb8-27" tabindex="-1"></a><span class="co">#&gt; 24     DP-MC Dobroc    T2</span></span>
+<span id="cb8-28"><a href="#cb8-28" tabindex="-1"></a><span class="co">#&gt; 25     DP-MC Dobroc    T3</span></span>
+<span id="cb8-29"><a href="#cb8-29" tabindex="-1"></a><span class="co">#&gt; 26     DP-MC Dobroc    T3</span></span>
+<span id="cb8-30"><a href="#cb8-30" tabindex="-1"></a><span class="co">#&gt; 27     DP-MC Dobroc    T4</span></span>
+<span id="cb8-31"><a href="#cb8-31" tabindex="-1"></a><span class="co">#&gt; 28     DP-MC Dobroc    T4</span></span>
+<span id="cb8-32"><a href="#cb8-32" tabindex="-1"></a><span class="co">#&gt; 29     DP-MC Dobroc    C1</span></span>
+<span id="cb8-33"><a href="#cb8-33" tabindex="-1"></a><span class="co">#&gt; 30     DP-MC Dobroc    C1</span></span>
+<span id="cb8-34"><a href="#cb8-34" tabindex="-1"></a><span class="co">#&gt; 31     DP-MC Dobroc    C2</span></span>
+<span id="cb8-35"><a href="#cb8-35" tabindex="-1"></a><span class="co">#&gt; 32     DP-MC Dobroc    C2</span></span>
+<span id="cb8-36"><a href="#cb8-36" tabindex="-1"></a><span class="co">#&gt; 33     DP-MC Dobroc    C3</span></span>
+<span id="cb8-37"><a href="#cb8-37" tabindex="-1"></a><span class="co">#&gt; 34     DP-MC Dobroc    C3</span></span>
+<span id="cb8-38"><a href="#cb8-38" tabindex="-1"></a><span class="co">#&gt; 35     DP-MC Dobroc    C4</span></span>
+<span id="cb8-39"><a href="#cb8-39" tabindex="-1"></a><span class="co">#&gt; 36     DP-MC Dobroc    C4</span></span>
+<span id="cb8-40"><a href="#cb8-40" tabindex="-1"></a><span class="co">#&gt; 37     DP-MC Dobroc    C5</span></span>
+<span id="cb8-41"><a href="#cb8-41" tabindex="-1"></a><span class="co">#&gt; 38     DP-MC Dobroc    C5</span></span>
+<span id="cb8-42"><a href="#cb8-42" tabindex="-1"></a><span class="co">#&gt; 39     DP-MC Dobroc    C6</span></span>
+<span id="cb8-43"><a href="#cb8-43" tabindex="-1"></a><span class="co">#&gt; 40     DP-MC Dobroc    C6</span></span>
+<span id="cb8-44"><a href="#cb8-44" tabindex="-1"></a><span class="co">#&gt; 41    DP-MIX Dobroc    T1</span></span>
+<span id="cb8-45"><a href="#cb8-45" tabindex="-1"></a><span class="co">#&gt; 42    DP-MIX Dobroc    T1</span></span>
+<span id="cb8-46"><a href="#cb8-46" tabindex="-1"></a><span class="co">#&gt; 43    DP-MIX Dobroc    T2</span></span>
+<span id="cb8-47"><a href="#cb8-47" tabindex="-1"></a><span class="co">#&gt; 44    DP-MIX Dobroc    T2</span></span>
+<span id="cb8-48"><a href="#cb8-48" tabindex="-1"></a><span class="co">#&gt; 45    DP-MIX Dobroc    T3</span></span>
+<span id="cb8-49"><a href="#cb8-49" tabindex="-1"></a><span class="co">#&gt; 46    DP-MIX Dobroc    T3</span></span>
+<span id="cb8-50"><a href="#cb8-50" tabindex="-1"></a><span class="co">#&gt; 47    DP-MIX Dobroc    T4</span></span>
+<span id="cb8-51"><a href="#cb8-51" tabindex="-1"></a><span class="co">#&gt; 48    DP-MIX Dobroc    T4</span></span>
+<span id="cb8-52"><a href="#cb8-52" tabindex="-1"></a><span class="co">#&gt; 49    DP-MIX Dobroc    C1</span></span>
+<span id="cb8-53"><a href="#cb8-53" tabindex="-1"></a><span class="co">#&gt; 50    DP-MIX Dobroc    C1</span></span>
+<span id="cb8-54"><a href="#cb8-54" tabindex="-1"></a><span class="co">#&gt; 51    DP-MIX Dobroc    C2</span></span>
+<span id="cb8-55"><a href="#cb8-55" tabindex="-1"></a><span class="co">#&gt; 52    DP-MIX Dobroc    C2</span></span>
+<span id="cb8-56"><a href="#cb8-56" tabindex="-1"></a><span class="co">#&gt; 53    DP-MIX Dobroc    C3</span></span>
+<span id="cb8-57"><a href="#cb8-57" tabindex="-1"></a><span class="co">#&gt; 54    DP-MIX Dobroc    C3</span></span>
+<span id="cb8-58"><a href="#cb8-58" tabindex="-1"></a><span class="co">#&gt; 55    DP-MIX Dobroc    C4</span></span>
+<span id="cb8-59"><a href="#cb8-59" tabindex="-1"></a><span class="co">#&gt; 56    DP-MIX Dobroc    C4</span></span>
+<span id="cb8-60"><a href="#cb8-60" tabindex="-1"></a><span class="co">#&gt; 57    DP-MIX Dobroc    C5</span></span>
+<span id="cb8-61"><a href="#cb8-61" tabindex="-1"></a><span class="co">#&gt; 58    DP-MIX Dobroc    C5</span></span>
+<span id="cb8-62"><a href="#cb8-62" tabindex="-1"></a><span class="co">#&gt; 59    DP-MIX Dobroc    C6</span></span>
+<span id="cb8-63"><a href="#cb8-63" tabindex="-1"></a><span class="co">#&gt; 60    DP-MIX Dobroc    C6</span></span>
+<span id="cb8-64"><a href="#cb8-64" tabindex="-1"></a><span class="co">#&gt; 61    DP-MIX Dobroc    T1</span></span>
+<span id="cb8-65"><a href="#cb8-65" tabindex="-1"></a><span class="co">#&gt; 62    DP-MIX Dobroc    T1</span></span>
+<span id="cb8-66"><a href="#cb8-66" tabindex="-1"></a><span class="co">#&gt; 63    DP-MIX Dobroc    T2</span></span>
+<span id="cb8-67"><a href="#cb8-67" tabindex="-1"></a><span class="co">#&gt; 64    DP-MIX Dobroc    T2</span></span>
+<span id="cb8-68"><a href="#cb8-68" tabindex="-1"></a><span class="co">#&gt; 65    DP-MIX Dobroc    T3</span></span>
+<span id="cb8-69"><a href="#cb8-69" tabindex="-1"></a><span class="co">#&gt; 66    DP-MIX Dobroc    T3</span></span>
+<span id="cb8-70"><a href="#cb8-70" tabindex="-1"></a><span class="co">#&gt; 67    DP-MIX Dobroc    T4</span></span>
+<span id="cb8-71"><a href="#cb8-71" tabindex="-1"></a><span class="co">#&gt; 68    DP-MIX Dobroc    T4</span></span>
+<span id="cb8-72"><a href="#cb8-72" tabindex="-1"></a><span class="co">#&gt; 69    DP-MIX Dobroc    C1</span></span>
+<span id="cb8-73"><a href="#cb8-73" tabindex="-1"></a><span class="co">#&gt; 70    DP-MIX Dobroc    C1</span></span>
+<span id="cb8-74"><a href="#cb8-74" tabindex="-1"></a><span class="co">#&gt; 71    DP-MIX Dobroc    C2</span></span>
+<span id="cb8-75"><a href="#cb8-75" tabindex="-1"></a><span class="co">#&gt; 72    DP-MIX Dobroc    C2</span></span>
+<span id="cb8-76"><a href="#cb8-76" tabindex="-1"></a><span class="co">#&gt; 73    DP-MIX Dobroc    C3</span></span>
+<span id="cb8-77"><a href="#cb8-77" tabindex="-1"></a><span class="co">#&gt; 74    DP-MIX Dobroc    C3</span></span>
+<span id="cb8-78"><a href="#cb8-78" tabindex="-1"></a><span class="co">#&gt; 75    DP-MIX Dobroc    C4</span></span>
+<span id="cb8-79"><a href="#cb8-79" tabindex="-1"></a><span class="co">#&gt; 76    DP-MIX Dobroc    C4</span></span>
+<span id="cb8-80"><a href="#cb8-80" tabindex="-1"></a><span class="co">#&gt; 77    DP-MIX Dobroc    C5</span></span>
+<span id="cb8-81"><a href="#cb8-81" tabindex="-1"></a><span class="co">#&gt; 78    DP-MIX Dobroc    C5</span></span>
+<span id="cb8-82"><a href="#cb8-82" tabindex="-1"></a><span class="co">#&gt; 79    DP-MIX Dobroc    C6</span></span>
+<span id="cb8-83"><a href="#cb8-83" tabindex="-1"></a><span class="co">#&gt; 80    DP-MIX Dobroc    C6</span></span></code></pre></div>
+<p>Now, one thing we migth want to do is, for example, select only the
+measurements with a certain subsite ID. We created a specific function
+for that:</p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" tabindex="-1"></a>filtered_series_bysubsiteID <span class="ot">&lt;-</span> <span class="fu">subsiteID_filter</span>(series, <span class="at">subsiteID_value=</span><span class="st">&quot;DP-MC&quot;</span>)</span></code></pre></div>
+<p>Another possibility is to inspect one single element of a series,
+obtaining a more readable output with the function
+<code>process_single_series</code></p>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" tabindex="-1"></a><span class="fu">process_single_series</span>(series, <span class="dv">11</span>)</span>
+<span id="cb10-2"><a href="#cb10-2" tabindex="-1"></a><span class="co">#&gt; $id</span></span>
+<span id="cb10-3"><a href="#cb10-3" tabindex="-1"></a><span class="co">#&gt; [1] 1101</span></span>
+<span id="cb10-4"><a href="#cb10-4" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb10-5"><a href="#cb10-5" tabindex="-1"></a><span class="co">#&gt; $measurements</span></span>
+<span id="cb10-6"><a href="#cb10-6" tabindex="-1"></a><span class="co">#&gt; [1] 51</span></span>
+<span id="cb10-7"><a href="#cb10-7" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb10-8"><a href="#cb10-8" tabindex="-1"></a><span class="co">#&gt; $date</span></span>
+<span id="cb10-9"><a href="#cb10-9" tabindex="-1"></a><span class="co">#&gt; [1] &quot;2023-04-03&quot;</span></span>
+<span id="cb10-10"><a href="#cb10-10" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb10-11"><a href="#cb10-11" tabindex="-1"></a><span class="co">#&gt; $siteid</span></span>
+<span id="cb10-12"><a href="#cb10-12" tabindex="-1"></a><span class="co">#&gt; [1] &quot;Dobroc&quot;</span></span>
+<span id="cb10-13"><a href="#cb10-13" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb10-14"><a href="#cb10-14" tabindex="-1"></a><span class="co">#&gt; $subsiteid</span></span>
+<span id="cb10-15"><a href="#cb10-15" tabindex="-1"></a><span class="co">#&gt; [1] &quot;DP-MC&quot;</span></span>
+<span id="cb10-16"><a href="#cb10-16" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb10-17"><a href="#cb10-17" tabindex="-1"></a><span class="co">#&gt; $point</span></span>
+<span id="cb10-18"><a href="#cb10-18" tabindex="-1"></a><span class="co">#&gt; [1] &quot;C2&quot;</span></span>
+<span id="cb10-19"><a href="#cb10-19" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb10-20"><a href="#cb10-20" tabindex="-1"></a><span class="co">#&gt; $gas</span></span>
+<span id="cb10-21"><a href="#cb10-21" tabindex="-1"></a><span class="co">#&gt; [1] &quot;co2&quot;</span></span>
+<span id="cb10-22"><a href="#cb10-22" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb10-23"><a href="#cb10-23" tabindex="-1"></a><span class="co">#&gt; $start_time</span></span>
+<span id="cb10-24"><a href="#cb10-24" tabindex="-1"></a><span class="co">#&gt; [1] &quot;12:50:00&quot;</span></span>
+<span id="cb10-25"><a href="#cb10-25" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb10-26"><a href="#cb10-26" tabindex="-1"></a><span class="co">#&gt; $end_time</span></span>
+<span id="cb10-27"><a href="#cb10-27" tabindex="-1"></a><span class="co">#&gt; [1] &quot;12:53:00&quot;</span></span>
+<span id="cb10-28"><a href="#cb10-28" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb10-29"><a href="#cb10-29" tabindex="-1"></a><span class="co">#&gt; $start_temp</span></span>
+<span id="cb10-30"><a href="#cb10-30" tabindex="-1"></a><span class="co">#&gt; [1] 4.8</span></span>
+<span id="cb10-31"><a href="#cb10-31" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb10-32"><a href="#cb10-32" tabindex="-1"></a><span class="co">#&gt; $end_temp</span></span>
+<span id="cb10-33"><a href="#cb10-33" tabindex="-1"></a><span class="co">#&gt; [1] 4.8</span></span>
+<span id="cb10-34"><a href="#cb10-34" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb10-35"><a href="#cb10-35" tabindex="-1"></a><span class="co">#&gt; $unit</span></span>
+<span id="cb10-36"><a href="#cb10-36" tabindex="-1"></a><span class="co">#&gt; [1] &quot;ppm&quot;</span></span>
+<span id="cb10-37"><a href="#cb10-37" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb10-38"><a href="#cb10-38" tabindex="-1"></a><span class="co">#&gt; $env</span></span>
+<span id="cb10-39"><a href="#cb10-39" tabindex="-1"></a><span class="co">#&gt; $env$wt</span></span>
+<span id="cb10-40"><a href="#cb10-40" tabindex="-1"></a><span class="co">#&gt; [1] &quot;no data&quot;</span></span>
+<span id="cb10-41"><a href="#cb10-41" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb10-42"><a href="#cb10-42" tabindex="-1"></a><span class="co">#&gt; $env$`point type`</span></span>
+<span id="cb10-43"><a href="#cb10-43" tabindex="-1"></a><span class="co">#&gt; [1] &quot;Trenched&quot;</span></span>
+<span id="cb10-44"><a href="#cb10-44" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb10-45"><a href="#cb10-45" tabindex="-1"></a><span class="co">#&gt; $env$soil_temp_5cm</span></span>
+<span id="cb10-46"><a href="#cb10-46" tabindex="-1"></a><span class="co">#&gt; [1] &quot;3.1&quot;</span></span>
+<span id="cb10-47"><a href="#cb10-47" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb10-48"><a href="#cb10-48" tabindex="-1"></a><span class="co">#&gt; $env$soil_temp_30cm</span></span>
+<span id="cb10-49"><a href="#cb10-49" tabindex="-1"></a><span class="co">#&gt; [1] &quot;nan&quot;</span></span>
+<span id="cb10-50"><a href="#cb10-50" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb10-51"><a href="#cb10-51" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb10-52"><a href="#cb10-52" tabindex="-1"></a><span class="co">#&gt; $volume</span></span>
+<span id="cb10-53"><a href="#cb10-53" tabindex="-1"></a><span class="co">#&gt; [1] 14.13717</span></span>
+<span id="cb10-54"><a href="#cb10-54" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb10-55"><a href="#cb10-55" tabindex="-1"></a><span class="co">#&gt; $area</span></span>
+<span id="cb10-56"><a href="#cb10-56" tabindex="-1"></a><span class="co">#&gt; [1] 7.068583</span></span>
+<span id="cb10-57"><a href="#cb10-57" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb10-58"><a href="#cb10-58" tabindex="-1"></a><span class="co">#&gt; $pad_head</span></span>
+<span id="cb10-59"><a href="#cb10-59" tabindex="-1"></a><span class="co">#&gt; [1] 20</span></span>
+<span id="cb10-60"><a href="#cb10-60" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb10-61"><a href="#cb10-61" tabindex="-1"></a><span class="co">#&gt; $pad_tail</span></span>
+<span id="cb10-62"><a href="#cb10-62" tabindex="-1"></a><span class="co">#&gt; [1] 20</span></span>
+<span id="cb10-63"><a href="#cb10-63" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb10-64"><a href="#cb10-64" tabindex="-1"></a><span class="co">#&gt; $values</span></span>
+<span id="cb10-65"><a href="#cb10-65" tabindex="-1"></a><span class="co">#&gt;   [1] 435.6544 435.3384 436.2635 435.9046 435.2266 434.0883 434.9319 435.0301</span></span>
+<span id="cb10-66"><a href="#cb10-66" tabindex="-1"></a><span class="co">#&gt;   [9] 435.6345 436.3764 438.7342 439.0462 440.5158 439.5037 439.6499 440.7144</span></span>
+<span id="cb10-67"><a href="#cb10-67" tabindex="-1"></a><span class="co">#&gt;  [17] 441.2961 441.3853 440.1410 440.0326 440.9033 441.1005 440.7707 440.2288</span></span>
+<span id="cb10-68"><a href="#cb10-68" tabindex="-1"></a><span class="co">#&gt;  [25] 440.8547 441.2596 440.7733 440.5692 440.7477 440.9253 441.9355 441.1633</span></span>
+<span id="cb10-69"><a href="#cb10-69" tabindex="-1"></a><span class="co">#&gt;  [33] 441.6804 441.0996 440.4639 441.6655 441.6035 441.0853 442.3650 441.9870</span></span>
+<span id="cb10-70"><a href="#cb10-70" tabindex="-1"></a><span class="co">#&gt;  [41] 442.3152 441.9988 441.0638 442.5186 442.8157 441.5548 442.4761 442.5891</span></span>
+<span id="cb10-71"><a href="#cb10-71" tabindex="-1"></a><span class="co">#&gt;  [49] 440.9832 442.3646 441.6260 441.8801 442.2089 442.0452 442.6221 441.7726</span></span>
+<span id="cb10-72"><a href="#cb10-72" tabindex="-1"></a><span class="co">#&gt;  [57] 442.2903 441.1797 442.3253 441.7923 441.2365 442.0540 442.9921 442.4858</span></span>
+<span id="cb10-73"><a href="#cb10-73" tabindex="-1"></a><span class="co">#&gt;  [65] 442.2563 441.2311 442.2151 443.2967 442.1675 442.3192 442.3982 442.2851</span></span>
+<span id="cb10-74"><a href="#cb10-74" tabindex="-1"></a><span class="co">#&gt;  [73] 443.1258 442.7377 442.6862 442.6346 442.9347 442.7567 442.6428 443.0387</span></span>
+<span id="cb10-75"><a href="#cb10-75" tabindex="-1"></a><span class="co">#&gt;  [81] 443.1427 443.9072 444.4072 443.8605 443.6255 444.2347 443.7546 444.0972</span></span>
+<span id="cb10-76"><a href="#cb10-76" tabindex="-1"></a><span class="co">#&gt;  [89] 444.0166 444.1003 443.7371 443.6634 443.9617 444.4423 444.2676 444.7199</span></span>
+<span id="cb10-77"><a href="#cb10-77" tabindex="-1"></a><span class="co">#&gt;  [97] 444.6561 443.6643 443.8513 443.4464 445.0122 443.8360 444.9153 444.0922</span></span>
+<span id="cb10-78"><a href="#cb10-78" tabindex="-1"></a><span class="co">#&gt; [105] 444.0852 443.8745 444.2258 444.5524 444.2229 444.5772 445.2023 444.9856</span></span>
+<span id="cb10-79"><a href="#cb10-79" tabindex="-1"></a><span class="co">#&gt; [113] 444.5898 444.9123 444.9409 445.2745 444.9640 445.2337 445.4475 444.7015</span></span>
+<span id="cb10-80"><a href="#cb10-80" tabindex="-1"></a><span class="co">#&gt; [121] 444.9767 445.3943 445.3684 445.6375 445.6263 444.9854 446.0158 446.1346</span></span>
+<span id="cb10-81"><a href="#cb10-81" tabindex="-1"></a><span class="co">#&gt; [129] 445.2503 446.1058 446.5840 446.1832 446.1172 445.8167 446.5397 445.4753</span></span>
+<span id="cb10-82"><a href="#cb10-82" tabindex="-1"></a><span class="co">#&gt; [137] 446.0783 446.1212 445.5494 445.7306 446.9107 446.2988 445.4822 446.8404</span></span>
+<span id="cb10-83"><a href="#cb10-83" tabindex="-1"></a><span class="co">#&gt; [145] 446.3963 446.8119 446.5954 446.1005 448.0404 447.3718 446.9411 446.6250</span></span>
+<span id="cb10-84"><a href="#cb10-84" tabindex="-1"></a><span class="co">#&gt; [153] 446.7214 447.3984 447.5419 448.0182 447.7277 448.2417 447.7703 447.8193</span></span>
+<span id="cb10-85"><a href="#cb10-85" tabindex="-1"></a><span class="co">#&gt; [161] 447.8428 447.5542 447.9909 448.8333 448.6840 448.1377 448.7109 448.2585</span></span>
+<span id="cb10-86"><a href="#cb10-86" tabindex="-1"></a><span class="co">#&gt; [169] 448.7139 448.6579 448.2935 449.4102 448.8455 449.8951 449.1144 449.0725</span></span>
+<span id="cb10-87"><a href="#cb10-87" tabindex="-1"></a><span class="co">#&gt; [177] 448.3316 448.5345 448.1679 448.5952 448.0299 448.1918 448.8493 448.2430</span></span>
+<span id="cb10-88"><a href="#cb10-88" tabindex="-1"></a><span class="co">#&gt; [185] 449.1201 449.4599 449.9230 449.4475 449.9948 449.3493 449.4205 448.0848</span></span>
+<span id="cb10-89"><a href="#cb10-89" tabindex="-1"></a><span class="co">#&gt; [193] 449.0168 449.4859 450.0951 450.0155 450.0720 449.6929 450.0652 450.2375</span></span>
+<span id="cb10-90"><a href="#cb10-90" tabindex="-1"></a><span class="co">#&gt; [201] 449.7952 450.6287 450.1228 450.6162 450.4556 449.4315 449.9047 449.5196</span></span>
+<span id="cb10-91"><a href="#cb10-91" tabindex="-1"></a><span class="co">#&gt; [209] 449.8247 449.8145 449.8120 450.6594 450.4733 450.3258 449.9729 450.1914</span></span>
+<span id="cb10-92"><a href="#cb10-92" tabindex="-1"></a><span class="co">#&gt; [217] 451.1061 450.4049 450.7924 451.0508 450.3142</span></span>
+<span id="cb10-93"><a href="#cb10-93" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb10-94"><a href="#cb10-94" tabindex="-1"></a><span class="co">#&gt; $valid</span></span>
+<span id="cb10-95"><a href="#cb10-95" tabindex="-1"></a><span class="co">#&gt; [1] TRUE</span></span></code></pre></div>
 
 
 

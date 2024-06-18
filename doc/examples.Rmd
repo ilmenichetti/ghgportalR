@@ -30,6 +30,8 @@ api_password <- Sys.getenv("ghgportal_API_PASSWORD")
 reply <- get_token(uname = api_username, upass = api_password)
 ```
 
+
+
 We then select just the token bit from the output:
 ```{r}
 my_token <- reply$token
@@ -38,4 +40,44 @@ my_token <- reply$token
 Now with the token we can start querying the database, starting from a list of projects assigned to the user:
 ```{r}
 get_projects(my_token)
+```
+
+
+We can now query a specific project. In this case we want to select project 1: 
+
+```{r}
+all_meas <- get_meas(my_token, project_id = 1)
+```
+
+Just in case, the parameter `project_id` refers to the number in the column `"project"` and not `"id"`.  
+
+Now we can query one single measurement series:
+
+```{r}
+series <- get_series(token = my_token, meas_id=51)
+```
+Here is where things get complicated, since the database structure is a nested array. Each series consists of a vector of values (the measurement) of an arbitrary length, plus some associated metadata. The object returned (a JSON object) is read as a list of lists.  
+  
+One of the metadata is the `siteid` field in each second order list.  
+We can get a matrix with all the `siteid` in a measurement series
+```{r}
+subsite_info <- subsiteID_names(series)
+subsite_info
+```
+
+Same can be done with the sampling points:
+```{r}
+points_info <- point_names(series)
+points_info
+```
+
+Now, one thing we migth want to do is, for example, select only the measurements with a certain subsite ID. We created a specific function for that:
+
+```{r}
+filtered_series_bysubsiteID <- subsiteID_filter(series, subsiteID_value="DP-MC")
+```
+
+Another possibility is to inspect one single element of a series, obtaining a more readable output with the function `process_single_series`
+```{r}
+process_single_series(series, 11)
 ```

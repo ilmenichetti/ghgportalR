@@ -2,7 +2,9 @@ Package: ghgportalR
 Type: Package
 Title: R wrapper for the API interface to LUKE ghgportal server
 Version: 0.1.0
-Author: Jani Anttila <jani.anttila@luke.fi>
+Author: 
+    Jani Anttila <jani.anttila@luke.fi>
+    Lorenzo Menichetti <lorenzo.menichetti@luke.fi>
 Maintainer: Lorenzo Menichetti <lorenzo.menichetti@luke.fi>
 Description: More about what it does (maybe more than one line)
     Use four spaces when indenting paragraphs within the Description.
