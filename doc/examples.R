@@ -5,6 +5,8 @@ knitr::opts_chunk$set(
 )
 
 ## ----setup--------------------------------------------------------------------
+# Suppress the vignette title check warning
+options(rmarkdown.html_vignette.check_title = FALSE)
 library(ghgportalR)
 library(httr2) # should be loaded automatically, here just in case...
 
@@ -24,7 +26,13 @@ get_projects(my_token)
 all_meas <- get_meas(my_token, project_id = 1)
 
 ## -----------------------------------------------------------------------------
-series <- get_series(token = my_token, meas_id=51)
+available <- check_meas(meas = all_meas, token = my_token)
+available_series <- available$available_series
+measurements_check <- available$meas_check
+
+## -----------------------------------------------------------------------------
+available_id <- measurements_check[measurements_check$empty==F,]$id
+series <- get_series(token = my_token, meas_id = available_id[1])
 
 ## -----------------------------------------------------------------------------
 subsite_info <- subsiteID_names(series)

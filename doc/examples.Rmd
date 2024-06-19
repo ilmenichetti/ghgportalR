@@ -1,5 +1,5 @@
 ---
-title: "examples"
+title: "Vignette examples -  ghgportalR package"
 output: rmarkdown::html_vignette
 vignette: >
   %\VignetteIndexEntry{examples}
@@ -14,9 +14,11 @@ knitr::opts_chunk$set(
 )
 ```
 
-First load the package:
+After you have installed the package with devtools (instructions are in the readme file of the repository), load the package:
 
 ```{r setup}
+# Suppress the vignette title check warning
+options(rmarkdown.html_vignette.check_title = FALSE)
 library(ghgportalR)
 library(httr2) # should be loaded automatically, here just in case...
 ```
@@ -51,10 +53,21 @@ all_meas <- get_meas(my_token, project_id = 1)
 
 Just in case, the parameter `project_id` refers to the number in the column `"project"` and not `"id"`.  
 
-Now we can query one single measurement series:
+
+There might be errors in some series, and the API might not be able to retrieve some of them. To check which ones we can retrieve, we can use the following function:
 
 ```{r}
-series <- get_series(token = my_token, meas_id=51)
+available <- check_meas(meas = all_meas, token = my_token)
+available_series <- available$available_series
+measurements_check <- available$meas_check
+```
+
+
+Now we can query one single measurement series from the available ones:
+
+```{r}
+available_id <- measurements_check[measurements_check$empty==F,]$id
+series <- get_series(token = my_token, meas_id = available_id[1])
 ```
 Here is where things get complicated, since the database structure is a nested array. Each series consists of a vector of values (the measurement) of an arbitrary length, plus some associated metadata. The object returned (a JSON object) is read as a list of lists.  
   
@@ -77,7 +90,7 @@ Now, one thing we migth want to do is, for example, select only the measurements
 filtered_series_bysubsiteID <- subsiteID_filter(series, subsiteID_value="DP-MC")
 ```
 
-Another possibility is to inspect one single element of a series, obtaining a more readable output with the function `process_single_series`
+Another possibility is to inspect one single element of a series, obtaining a more readable output with the function `process_single_series`, for example here if we want to visualize the element 11:
 ```{r}
 process_single_series(series, 11)
 ```

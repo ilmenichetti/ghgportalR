@@ -114,7 +114,7 @@ get_meas <- function(token, project_id){
 #' @examples
 #' all_meas <- get_meas(mytoken, project_id = 1)
 #' @export
-get_series <- function(token,meas_id){
+get_series <- function(token, meas_id){
   access_list = create_access_list()
   req_url <- paste(access_list$protocol,"://",access_list$ip,access_list$series_addr,meas_id,sep="")
   req <- request(req_url) |> req_headers(Authorization = paste("Token",token))
@@ -213,4 +213,48 @@ process_single_series <- function(series ,index){
   values <- unlist(part$values)
   part$values <- values
   return(part)
+}
+
+
+
+
+#'  Check all the measurements in a certain project to see if they are available or if there are problems
+#'
+#' This function is utilized to extract all the available series in a project. In many cases there might be issues, and this function might help to identify where.
+#'
+#' @maintainer Lorenzo Menichetti, \email{lorenzo.menichetti@@luke.fi}
+#' @author Lorenzo Menichetti, \email{lorenzo.menichetti@@luke.fi}
+#' @param meas object from the function \code{\link{get_meas}}.
+#' @param token output straight from the function \code{\link{get_token_LM}}.
+#' @return a list of two elements, the first is a list of all the available series (a list of lists), and the second is the same output than \code{\link{get_meas}} with an attached column with the availability check. The function will also print which series are not available.
+#' @details Things here gets more complicated
+#' @examples
+#' available <- check_meas(meas = all_meas, token = mytoken)
+#' available_series <- available$available_series
+#' measurements_check <- available$meas_check
+#' @export
+check_meas <- function(token, meas){
+  counter=1
+  df_empty <- setNames(data.frame(matrix(ncol = length(names(meas))+1, nrow = 0)), c(names(meas), "empty"))
+  pb = txtProgressBar(min = 0, max = length(meas$id), initial = 0)
+
+  available_series <- list()
+
+  for(i in meas$id){
+    series = get_series(token = token, meas_id = i)
+    df_empty[counter,1:length(names(meas))] <- meas[meas$id == i,]
+    if(length(series)>0){
+      df_empty[counter,"empty"] = FALSE
+      available_series[[length(available_series) + 1]] <- series
+    } else {
+      df_empty[counter,"empty"] = TRUE
+    }
+    counter=counter+1
+    setTxtProgressBar(pb,counter)
+  }
+
+  print(paste("The following id are unaccessible: ",  paste(df_empty[df_empty$empty == T,]$id, collapse = ", ")))
+  print(paste("The following id are available: ",  paste(df_empty[df_empty$empty == F,]$id, collapse = ", ")))
+  return(list(available_series = available_series, meas_check = df_empty))
+
 }

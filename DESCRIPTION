@@ -6,9 +6,8 @@ Author:
     Jani Anttila <jani.anttila@luke.fi>
     Lorenzo Menichetti <lorenzo.menichetti@luke.fi>
 Maintainer: Lorenzo Menichetti <lorenzo.menichetti@luke.fi>
-Description: More about what it does (maybe more than one line)
-    Use four spaces when indenting paragraphs within the Description.
-License: What license is it under?
+Description: the package is an interface to an API to the greenhouse gas measurement database (internal to LUKE) written by Jani Anttila (who is also managing the database structure, while the database is run by INFRA). We will try to keep it in sync and maintain it well, but keep in mind that we do this as something on top of our duties so there might be occasional problems. Please contact the maintainer in any case, and we will try to solve eventual issues if resources allow for it.
+License: CC-BY
 Encoding: UTF-8
 LazyData: true
 Imports:
