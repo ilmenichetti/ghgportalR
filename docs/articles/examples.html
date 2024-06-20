@@ -5,13 +5,13 @@
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Vignette examples -  ghgportalR package • ghgportalR</title>
+<title>Vignette examples -  ghgportalR package BESTEMMIO • ghgportalR</title>
 <!-- jquery --><script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script><!-- Bootstrap --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha256-bZLfwXAP04zRMK2BjiO8iu9pf4FbLqX6zitd+tIvLhE=" crossorigin="anonymous">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha256-nuL8/2cJ5NDSSwnKD8VqreErSWHtnEP9E7AySL+1ev4=" crossorigin="anonymous"></script><!-- bootstrap-toc --><link rel="stylesheet" href="../bootstrap-toc.css">
 <script src="../bootstrap-toc.js"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous">
 <!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- pkgdown --><link href="../pkgdown.css" rel="stylesheet">
-<script src="../pkgdown.js"></script><meta property="og:title" content="Vignette examples -  ghgportalR package">
+<script src="../pkgdown.js"></script><meta property="og:title" content="Vignette examples -  ghgportalR package BESTEMMIO">
 <meta property="og:description" content="ghgportalR">
 <!-- mathjax --><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/config/TeX-AMS-MML_HTMLorMML.js" integrity="sha256-84DKXVJXs0/F8OTMzX4UR909+jtl4G7SPypPavF+GfA=" crossorigin="anonymous"></script><!--[if lt IE 9]>
 <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
@@ -50,7 +50,7 @@
   </a>
   <ul class="dropdown-menu" role="menu">
 <li>
-      <a href="../articles/examples.html">Vignette examples -  ghgportalR package</a>
+      <a href="../articles/examples.html">Vignette examples -  ghgportalR package BESTEMMIO</a>
     </li>
   </ul>
 </li>
@@ -68,7 +68,8 @@
       </header><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
-      <h1 data-toc-skip>Vignette examples - ghgportalR package</h1>
+      <h1 data-toc-skip>Vignette examples - ghgportalR package
+BESTEMMIO</h1>
             
       
       
@@ -112,19 +113,84 @@ project 1:</p>
 <p>Just in case, the parameter <code>project_id</code> refers to the
 number in the column <code>"project"</code> and not
 <code>"id"</code>.</p>
-<p>There might be errors in some series, and the API might not be able
-to retrieve some of them. To check which ones we can retrieve, we can
-use the following function:</p>
+<p>There might be errors in some series (mainly due to the uploader not
+having yet accepted or validated), and you might not be able to retrieve
+some of them. To check which ones we can retrieve, we can use the
+following function:</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">available</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/check_meas.html">check_meas</a></span><span class="op">(</span>meas <span class="op">=</span> <span class="va">all_meas</span>, token <span class="op">=</span> <span class="va">my_token</span><span class="op">)</span></span>
-<span><span class="co">#&gt; ================================================================================[1] "The following id are unaccessible:  8, 4, 77, 6, 73, 75, 52, 54, 55, 57, 59, 62, 63, 64, 65, 66, 67, 68, 69, 71, 74, 76, 79, 243, 245, 247, 249, 256, 350, 351, 352, 353, 354, 355, 356, 357, 345, 346, 347, 348, 349, 358, 359, 360, 361, 362, 363, 364, 365, 366, 367, 368, 369, 370, 371, 372, 373"</span></span>
-<span><span class="co">#&gt; [1] "The following id are available:  51, 50, 447"</span></span>
-<span><span class="va">available_series</span> <span class="op">&lt;-</span> <span class="va">available</span><span class="op">$</span><span class="va">available_series</span></span>
-<span><span class="va">measurements_check</span> <span class="op">&lt;-</span> <span class="va">available</span><span class="op">$</span><span class="va">meas_check</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">all_series</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_all_series.html">get_all_series</a></span><span class="op">(</span>token <span class="op">=</span> <span class="va">my_token</span>, meas_id <span class="op">=</span> <span class="va">meas</span><span class="op">)</span></span>
+<span><span class="va">available_series</span> <span class="op">&lt;-</span> <span class="va">all_series</span><span class="op">$</span><span class="va">all_series</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/which.html" class="external-link">which</a></span><span class="op">(</span><span class="va">all_series</span><span class="op">$</span><span class="va">data_check</span> <span class="op">==</span> <span class="st">"available"</span><span class="op">)</span><span class="op">]</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/length.html" class="external-link">length</a></span><span class="op">(</span><span class="va">available_series</span><span class="op">)</span></span>
+<span><span class="co">#&gt; [1] 4</span></span></code></pre></div>
+<p>Some are not available:</p>
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">all_series</span><span class="op">$</span><span class="va">data_check</span></span>
+<span><span class="co">#&gt;  [1] "measurements set not yet accepted by uploader"</span></span>
+<span><span class="co">#&gt;  [2] "measurements set not yet accepted by uploader"</span></span>
+<span><span class="co">#&gt;  [3] "measurements set not yet accepted by uploader"</span></span>
+<span><span class="co">#&gt;  [4] "measurements set not yet accepted by uploader"</span></span>
+<span><span class="co">#&gt;  [5] "measurements set not yet accepted by uploader"</span></span>
+<span><span class="co">#&gt;  [6] "measurements set not yet accepted by uploader"</span></span>
+<span><span class="co">#&gt;  [7] "available"                                    </span></span>
+<span><span class="co">#&gt;  [8] "measurements set not yet accepted by uploader"</span></span>
+<span><span class="co">#&gt;  [9] "measurements set not yet accepted by uploader"</span></span>
+<span><span class="co">#&gt; [10] "measurements set not yet accepted by uploader"</span></span>
+<span><span class="co">#&gt; [11] "measurements set not yet accepted by uploader"</span></span>
+<span><span class="co">#&gt; [12] "measurements set not yet accepted by uploader"</span></span>
+<span><span class="co">#&gt; [13] "measurements set not yet accepted by uploader"</span></span>
+<span><span class="co">#&gt; [14] "measurements set not yet accepted by uploader"</span></span>
+<span><span class="co">#&gt; [15] "measurements set not yet accepted by uploader"</span></span>
+<span><span class="co">#&gt; [16] "measurements set not yet accepted by uploader"</span></span>
+<span><span class="co">#&gt; [17] "measurements set not yet accepted by uploader"</span></span>
+<span><span class="co">#&gt; [18] "measurements set not yet accepted by uploader"</span></span>
+<span><span class="co">#&gt; [19] "measurements set not yet accepted by uploader"</span></span>
+<span><span class="co">#&gt; [20] "measurements set not yet accepted by uploader"</span></span>
+<span><span class="co">#&gt; [21] "measurements set not yet accepted by uploader"</span></span>
+<span><span class="co">#&gt; [22] "available"                                    </span></span>
+<span><span class="co">#&gt; [23] "measurements set not yet accepted by uploader"</span></span>
+<span><span class="co">#&gt; [24] "measurements set not yet accepted by uploader"</span></span>
+<span><span class="co">#&gt; [25] "measurements set not yet accepted by uploader"</span></span>
+<span><span class="co">#&gt; [26] "measurements set not yet accepted by uploader"</span></span>
+<span><span class="co">#&gt; [27] "measurements set not yet accepted by uploader"</span></span>
+<span><span class="co">#&gt; [28] "measurements set not yet accepted by uploader"</span></span>
+<span><span class="co">#&gt; [29] "measurements set not yet accepted by uploader"</span></span>
+<span><span class="co">#&gt; [30] "measurements set not yet accepted by uploader"</span></span>
+<span><span class="co">#&gt; [31] "measurements set not yet processed"           </span></span>
+<span><span class="co">#&gt; [32] "measurements set not yet processed"           </span></span>
+<span><span class="co">#&gt; [33] "measurements set not yet processed"           </span></span>
+<span><span class="co">#&gt; [34] "measurements set not yet processed"           </span></span>
+<span><span class="co">#&gt; [35] "measurements set not yet processed"           </span></span>
+<span><span class="co">#&gt; [36] "measurements set not yet processed"           </span></span>
+<span><span class="co">#&gt; [37] "measurements set not yet processed"           </span></span>
+<span><span class="co">#&gt; [38] "measurements set not yet processed"           </span></span>
+<span><span class="co">#&gt; [39] "measurements set not passing validation"      </span></span>
+<span><span class="co">#&gt; [40] "available"                                    </span></span>
+<span><span class="co">#&gt; [41] "measurements set not yet accepted by uploader"</span></span>
+<span><span class="co">#&gt; [42] "measurements set not yet accepted by uploader"</span></span>
+<span><span class="co">#&gt; [43] "measurements set not yet accepted by uploader"</span></span>
+<span><span class="co">#&gt; [44] "measurements set not yet processed"           </span></span>
+<span><span class="co">#&gt; [45] "measurements set not yet processed"           </span></span>
+<span><span class="co">#&gt; [46] "measurements set not yet processed"           </span></span>
+<span><span class="co">#&gt; [47] "measurements set not yet processed"           </span></span>
+<span><span class="co">#&gt; [48] "measurements set not yet processed"           </span></span>
+<span><span class="co">#&gt; [49] "measurements set not yet processed"           </span></span>
+<span><span class="co">#&gt; [50] "measurements set not yet processed"           </span></span>
+<span><span class="co">#&gt; [51] "measurements set not yet processed"           </span></span>
+<span><span class="co">#&gt; [52] "measurements set not yet processed"           </span></span>
+<span><span class="co">#&gt; [53] "measurements set not yet processed"           </span></span>
+<span><span class="co">#&gt; [54] "measurements set not yet processed"           </span></span>
+<span><span class="co">#&gt; [55] "measurements set not yet processed"           </span></span>
+<span><span class="co">#&gt; [56] "measurements set not yet processed"           </span></span>
+<span><span class="co">#&gt; [57] "measurements set not yet processed"           </span></span>
+<span><span class="co">#&gt; [58] "measurements set not yet processed"           </span></span>
+<span><span class="co">#&gt; [59] "measurements set not yet processed"           </span></span>
+<span><span class="co">#&gt; [60] "available"</span></span></code></pre></div>
+<p>And we can see that in many cases the uploaders are not yet ready
+with the measurements.</p>
 <p>Now we can query one single measurement series from the available
 ones:</p>
-<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">available_id</span> <span class="op">&lt;-</span> <span class="va">measurements_check</span><span class="op">[</span><span class="va">measurements_check</span><span class="op">$</span><span class="va">empty</span><span class="op">==</span><span class="cn">F</span>,<span class="op">]</span><span class="op">$</span><span class="va">id</span></span>
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">available_id</span> <span class="op">&lt;-</span> <span class="va">all_meas</span><span class="op">$</span><span class="va">id</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/which.html" class="external-link">which</a></span><span class="op">(</span><span class="va">all_series</span><span class="op">$</span><span class="va">data_check</span> <span class="op">==</span> <span class="st">"available"</span><span class="op">)</span><span class="op">]</span></span>
 <span><span class="va">series</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_series.html">get_series</a></span><span class="op">(</span>token <span class="op">=</span> <span class="va">my_token</span>, meas_id <span class="op">=</span> <span class="va">available_id</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span><span class="op">)</span></span></code></pre></div>
 <p>Here is where things get complicated, since the database structure is
 a nested array. Each series consists of a vector of values (the
@@ -134,7 +200,7 @@ object returned (a JSON object) is read as a list of lists.</p>
 order list.<br>
 We can get a matrix with all the <code>siteid</code> in a measurement
 series</p>
-<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">subsite_info</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/subsiteID_names.html">subsiteID_names</a></span><span class="op">(</span><span class="va">series</span><span class="op">)</span></span>
 <span><span class="va">subsite_info</span></span>
 <span><span class="co">#&gt;    subsiteid siteid</span></span>
@@ -219,7 +285,7 @@ series</p>
 <span><span class="co">#&gt; 79    DP-MIX Dobroc</span></span>
 <span><span class="co">#&gt; 80    DP-MIX Dobroc</span></span></code></pre></div>
 <p>Same can be done with the sampling points:</p>
-<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">points_info</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/point_names.html">point_names</a></span><span class="op">(</span><span class="va">series</span><span class="op">)</span></span>
 <span><span class="va">points_info</span></span>
 <span><span class="co">#&gt;    subsiteid siteid point</span></span>
@@ -306,13 +372,13 @@ series</p>
 <p>Now, one thing we migth want to do is, for example, select only the
 measurements with a certain subsite ID. We created a specific function
 for that:</p>
-<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">filtered_series_bysubsiteID</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/subsiteID_filter.html">subsiteID_filter</a></span><span class="op">(</span><span class="va">series</span>, subsiteID_value<span class="op">=</span><span class="st">"DP-MC"</span><span class="op">)</span></span></code></pre></div>
 <p>Another possibility is to inspect one single element of a series,
 obtaining a more readable output with the function
 <code>process_single_series</code>, for example here if we want to
 visualize the element 11:</p>
-<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/process_single_series.html">process_single_series</a></span><span class="op">(</span><span class="va">series</span>, <span class="fl">11</span><span class="op">)</span></span>
 <span><span class="co">#&gt; $id</span></span>
 <span><span class="co">#&gt; [1] 1101</span></span>
