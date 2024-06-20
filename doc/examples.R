@@ -26,12 +26,15 @@ get_projects(my_token)
 all_meas <- get_meas(my_token, project_id = 1)
 
 ## -----------------------------------------------------------------------------
-available <- check_meas(meas = all_meas, token = my_token)
-available_series <- available$available_series
-measurements_check <- available$meas_check
+all_series <- get_all_series(token = my_token, meas_id = meas)
+available_series <- all_series$all_series[which(all_series$data_check == "available")]
+length(available_series)
 
 ## -----------------------------------------------------------------------------
-available_id <- measurements_check[measurements_check$empty==F,]$id
+all_series$data_check
+
+## -----------------------------------------------------------------------------
+available_id <- all_meas$id[which(all_series$data_check == "available")]
 series <- get_series(token = my_token, meas_id = available_id[1])
 
 ## -----------------------------------------------------------------------------

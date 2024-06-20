@@ -54,21 +54,26 @@ all_meas <- get_meas(my_token, project_id = 1)
 Just in case, the parameter `project_id` refers to the number in the column `"project"` and not `"id"`.  
 
 
-There might be errors in some series, and the API might not be able to retrieve some of them. To check which ones we can retrieve, we can use the following function:
+There might be errors in some series (mainly due to the uploader not having yet accepted or validated), and you might not be able to retrieve some of them. To check which ones we can retrieve, we can use the following function:
 
 ```{r}
-available <- check_meas(meas = all_meas, token = my_token)
-available_series <- available$available_series
-measurements_check <- available$meas_check
+all_series <- get_all_series(token = my_token, meas_id = meas)
+available_series <- all_series$all_series[which(all_series$data_check == "available")]
+length(available_series)
 ```
+Some are not available:
 
+```{r}
+all_series$data_check
+```
+And we can see that in many cases the uploaders are not yet ready with the measurements.
 
 Now we can query one single measurement series from the available ones:
-
 ```{r}
-available_id <- measurements_check[measurements_check$empty==F,]$id
+available_id <- all_meas$id[which(all_series$data_check == "available")]
 series <- get_series(token = my_token, meas_id = available_id[1])
 ```
+
 Here is where things get complicated, since the database structure is a nested array. Each series consists of a vector of values (the measurement) of an arbitrary length, plus some associated metadata. The object returned (a JSON object) is read as a list of lists.  
   
 One of the metadata is the `siteid` field in each second order list.  

@@ -109,7 +109,7 @@ get_meas <- function(token, project_id){
 #' @author Jani Anttila, \email{jani.anttila@@luke.fi}
 #' @param token output straight from the function \code{\link{get_token_LM}}.
 #' @param meas_id password
-#' @return a list of lists
+#' @return a list of lists if the measurement is available, otherwise the error message relative to the series
 #' @details Things here gets more complicated
 #' @examples
 #' all_meas <- get_meas(mytoken, project_id = 1)
@@ -120,8 +120,14 @@ get_series <- function(token, meas_id){
   req <- request(req_url) |> req_headers(Authorization = paste("Token",token))
   resp <- req_perform(req)
   resp_json <- resp |> resp_body_json()
-  return(resp_json$series)
-}
+
+  if(length(resp_json$series)>1){
+    return(resp_json$series)
+  } else {
+    return(resp_json$message)
+  }
+
+  }
 
 
 
@@ -218,7 +224,7 @@ process_single_series <- function(series ,index){
 
 
 
-#'  Check all the measurements in a certain project to see if they are available or if there are problems
+#'  Get all the available series and check which ar enot available
 #'
 #' This function is utilized to extract all the available series in a project. In many cases there might be issues, and this function might help to identify where.
 #'
@@ -226,35 +232,27 @@ process_single_series <- function(series ,index){
 #' @author Lorenzo Menichetti, \email{lorenzo.menichetti@@luke.fi}
 #' @param meas object from the function \code{\link{get_meas}}.
 #' @param token output straight from the function \code{\link{get_token_LM}}.
-#' @return a list of two elements, the first is a list of all the available series (a list of lists), and the second is the same output than \code{\link{get_meas}} with an attached column with the availability check. The function will also print which series are not available.
+#' @return a list of two elements, the first is a list of all the available series (a list of lists), and the second is the output returned by the API relative to that specific series when the series is not available, otherwise "available".
 #' @details Things here gets more complicated
 #' @examples
-#' available <- check_meas(meas = all_meas, token = mytoken)
-#' available_series <- available$available_series
-#' measurements_check <- available$meas_check
+#' all_series <- get_all_series(token = my_token, meas_id = meas)
+#' all_series$all_series[which(all_series$data_check == "available")]
+#' measurements_check <- all_series$data_check
 #' @export
-check_meas <- function(token, meas){
-  counter=1
-  df_empty <- setNames(data.frame(matrix(ncol = length(names(meas))+1, nrow = 0)), c(names(meas), "empty"))
-  pb = txtProgressBar(min = 0, max = length(meas$id), initial = 0)
-
-  available_series <- list()
-
-  for(i in meas$id){
-    series = get_series(token = token, meas_id = i)
-    df_empty[counter,1:length(names(meas))] <- meas[meas$id == i,]
-    if(length(series)>0){
-      df_empty[counter,"empty"] = FALSE
-      available_series[[length(available_series) + 1]] <- series
+get_all_series <- function(token, meas_id){
+  series <- list()
+  check <- c()
+  for(i in 1:length(all_meas$id)){
+    meas = all_meas$id[i]
+    series[[i]] <- get_series(token = my_token, meas_id = meas)
+    if(length(series[[i]]) == 1){
+      check[i] = series[[i]]
     } else {
-      df_empty[counter,"empty"] = TRUE
+      check[i] = "available"
     }
-    counter=counter+1
-    setTxtProgressBar(pb,counter)
   }
 
-  print(paste("The following id are unaccessible: ",  paste(df_empty[df_empty$empty == T,]$id, collapse = ", ")))
-  print(paste("The following id are available: ",  paste(df_empty[df_empty$empty == F,]$id, collapse = ", ")))
-  return(list(available_series = available_series, meas_check = df_empty))
-
+  return(list(all_series = series, data_check = check))
 }
+
+

@@ -12,7 +12,7 @@ get_series(token, meas_id)
 \item{meas_id}{password}
 }
 \value{
-a list of lists
+a list of lists if the measurement is available, otherwise the error message relative to the series
 }
 \description{
 This function is utilized to gccess one specific series of measurements
