@@ -1,5 +1,5 @@
 ---
-title: "Vignette examples -  ghgportalR package BESTEMMIO"
+title: "Vignette examples -  ghgportalR package"
 output: rmarkdown::html_vignette
 vignette: >
   %\VignetteIndexEntry{examples}
