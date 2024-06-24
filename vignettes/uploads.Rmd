@@ -1,0 +1,61 @@
+---
+title: "Uploads workflow"
+author: "Lorenzo Menichetti"
+date: "2024-06-24"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Uploads workflow
+
+The upload workflow goes as following:
+
+```{r graphviz, echo=FALSE}
+library(DiagrammeR)
+grViz("
+digraph flowchart {
+  graph [rankdir = TB, ranksep=1.5, nodesep=1.0]
+
+  node [shape = box, style = filled, color = lightblue, fontsize = 50, width = 3, height = 2]
+  A [label='Fill\npreparation']
+  B1 [label='Upload\ndata']
+  B2 [label='Upload\nfield form']
+  C [label='Fill\nmetadata']
+  D [label='Check\ndata']
+
+  node [shape = diamond, style = filled, color = lightpink, fontsize = 50, width = 3, height = 1]
+  E [label='Datafile\nstatus']
+  F [label='Fieldform\nstatus']
+  G [label='Are there 0 in\nthe column\ndatapoints?']
+
+  node [shape = box, style = filled, color = chartreuse3, fontsize = 50, width = 3, height = 1]
+  H [label='Accept\ndata']
+
+  A -> B1
+  B1 -> B2
+  B2 -> C
+  C -> D
+  D -> E
+  E -> F [label='Valid', fontsize = 50]
+  E -> A [label='Not valid', fontsize = 50]
+  F -> G [label='Valid', fontsize = 50]
+  F -> C [label='Not valid', fontsize = 50]
+  G -> H [label='Valid', fontsize = 50]
+  G -> A [label='Not valid', fontsize = 50]
+}
+")
+
+```
+
+
+
+## Data specifications
+
+
+
+
+## Field form specifications
+

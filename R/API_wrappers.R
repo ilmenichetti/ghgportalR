@@ -3,7 +3,7 @@
 # library(httr2)
 # devtools::build_manual()
 # devtools::build_vignettes()  # Build the vignettes
-#pkgdown::build_site()
+# pkgdown::build_site()
 
 
 #' Create access_list. The function is used only internally.
